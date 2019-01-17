@@ -1,6 +1,6 @@
 {
   "name": "@dot-event/render",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "dot-event view renderer",
   "keywords": [
     "dot-event",
@@ -28,7 +28,8 @@
     "version": {}
   },
   "dependencies": {
-    "fs-extra": "7.0.1"
+    "fs-extra": "7.0.1",
+    "jsdom": "13.1.0"
   },
   "devDependencies": {
     "@dot-event/log": "next2",
