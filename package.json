@@ -1,5 +1,5 @@
 {
-  "name": "render",
+  "name": "@dot-event/render",
   "version": "0.0.1",
   "description": "dot-event view renderer",
   "keywords": [
