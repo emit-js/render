@@ -7,6 +7,12 @@ var el = require("attodom").el
 var fs = require("fs-extra")
 var render = require("./")
 
+function readFile(name) {
+  return fs
+    .readFileSync(__dirname + "/" + name + ".html")
+    .toString()
+}
+
 beforeEach(function() {
   dot.reset()
   log(dot)
@@ -15,27 +21,28 @@ beforeEach(function() {
   fs.removeSync(__dirname + "/test2.html")
 })
 
-test("hello", function() {
+test("hello", function(done) {
   var viewCalled
+
+  expect.assertions(3)
 
   dot.beforeAny("myView", function(prop, arg) {
     viewCalled = true
     arg.element.appendChild(el("html"))
   })
 
-  dot.render({
-    outDir: "./",
-    views: {
-      "test.html": { event: "myView" },
-      "test2.html": { event: "myView" },
-    },
-  })
-
-  expect(viewCalled).toBe(true)
-  expect(
-    fs.readFileSync(__dirname + "/test.html").toString()
-  ).toBe("<html></html>")
-  expect(
-    fs.readFileSync(__dirname + "/test2.html").toString()
-  ).toBe("<html></html>")
+  dot
+    .render({
+      outDir: "./",
+      views: {
+        "test.html": { event: "myView" },
+        "test2.html": { event: "myView" },
+      },
+    })
+    .then(function() {
+      expect(viewCalled).toBe(true)
+      expect(readFile("test")).toBe("<html></html>")
+      expect(readFile("test2")).toBe("<html></html>")
+      done()
+    })
 })
