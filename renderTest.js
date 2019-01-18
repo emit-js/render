@@ -28,7 +28,9 @@ test("hello", function(done) {
 
   dot.beforeAny("myView", function(prop, arg) {
     viewCalled = true
-    arg.element.appendChild(el("html"))
+    var element = el("html")
+    arg.element.appendChild(element)
+    return element
   })
 
   dot
