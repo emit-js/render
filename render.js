@@ -26,7 +26,12 @@ function render(prop, arg, dot) {
 
   for (var path in arg.views) {
     var file = join(arg.outDir, path)
-    var output = view(prop, arg.views[path], dot)
+
+    var a = Object.assign({}, arg.views[path], {
+      path: path,
+    })
+
+    var output = view(prop, a, dot)
 
     if (arg.outDir) {
       promises.push(writeFile(file, output))
@@ -41,7 +46,12 @@ function view(prop, arg, dot) {
     document.removeChild(document.firstChild)
   }
 
-  dot[arg.event]({ element: document })
+  var a = Object.assign({}, arg, {
+    element: document,
+    path: arg.path,
+  })
+
+  dot[arg.event](a)
 
   return jsdom.serialize()
 }
