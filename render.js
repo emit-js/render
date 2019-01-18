@@ -16,10 +16,7 @@ module.exports = function(dot, opts) {
     return
   }
 
-  state.render = Object.assign(
-    { promises: Promise.resolve() },
-    opts
-  )
+  state.render = opts || {}
 
   dot.beforeAny("render", render)
 }
@@ -36,13 +33,13 @@ function render(prop, arg, dot) {
     })
 
     promise = promise
-      .then(view(prop, a, dot))
+      .then(view.bind(undefined, prop, a, dot))
       .then(function() {
         return jsdom.serialize()
       })
 
     if (arg.outDir) {
-      writes.push(promise.then(writeFile(file)))
+      writes.push(promise.then(writeFile.bind(file)))
     }
   }
 
@@ -50,24 +47,21 @@ function render(prop, arg, dot) {
 }
 
 function view(prop, arg, dot) {
-  return function() {
-    while (document.firstChild) {
-      document.removeChild(document.firstChild)
-    }
-
-    var a = Object.assign({}, arg, {
-      element: document,
-      path: arg.path,
-    })
-
-    return dot[arg.event](a)
+  while (document.firstChild) {
+    document.removeChild(document.firstChild)
   }
+
+  var a = Object.assign({}, arg, {
+    element: document,
+    path: arg.path,
+  })
+
+  return dot[arg.event](a)
 }
 
-function writeFile(file) {
-  return function(output) {
-    return fs.ensureFile(file).then(function() {
-      return fs.writeFile(file, output)
-    })
-  }
+function writeFile(output) {
+  var file = this
+  return fs.ensureFile(file).then(function() {
+    return fs.writeFile(file, output)
+  })
 }
