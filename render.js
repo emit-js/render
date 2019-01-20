@@ -1,4 +1,4 @@
-/*global document Promise*/
+/*global document Promise Set*/
 /*prettier-ignore*/
 "use strict"
 
@@ -20,6 +20,7 @@ module.exports = function(dot, opts) {
   state.render = opts || {}
 
   dot.beforeAny("render", render)
+  dot.beforeAny("renderCapture", renderCapture)
 }
 
 function render(prop, arg, dot) {
@@ -49,6 +50,23 @@ function render(prop, arg, dot) {
   }
 
   return Promise.all(writes.concat(promise))
+}
+
+function renderCapture(prop, arg, dot) {
+  var events = new Set(dot.state.events)
+
+  return function() {
+    var arr = [],
+      events2 = new Set(dot.state.events)
+
+    events2.forEach(function(v) {
+      if (!events.has(v)) {
+        arr.push(v)
+      }
+    })
+
+    return Promise.all(arr)
+  }
 }
 
 function view(prop, arg, dot) {

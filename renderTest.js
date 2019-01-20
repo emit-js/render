@@ -1,3 +1,4 @@
+/*global Promise*/
 /** @jsx el */
 /* eslint-env jest */
 
@@ -15,16 +16,17 @@ function readFile(name) {
 
 beforeEach(function() {
   dot.reset()
-  log(dot)
   render(dot)
   fs.removeSync(__dirname + "/test.html")
   fs.removeSync(__dirname + "/test2.html")
 })
 
-test("hello", function(done) {
+test("render", function(done) {
   var viewCalled
 
   expect.assertions(3)
+
+  log(dot)
 
   dot.beforeAny("myView", function(prop, arg) {
     viewCalled = true
@@ -51,4 +53,28 @@ test("hello", function(done) {
       )
       done()
     })
+})
+
+test("renderCapture", function() {
+  var wait = function(ms) {
+    return new Promise(function(r) {
+      setTimeout(r, ms)
+    })
+  }
+
+  dot.any("wait10", wait.bind(null, 10))
+  dot.any("wait20", wait.bind(null, 20))
+
+  dot.wait20()
+  expect(dot.state.events.size).toBe(1)
+
+  var finish = dot.renderCapture()
+  expect(dot.state.events.size).toBe(2)
+
+  dot.wait10()
+  expect(dot.state.events.size).toBe(3)
+
+  return finish().then(function() {
+    expect(dot.state.events.size).toBe(1)
+  })
 })
