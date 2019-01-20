@@ -43,8 +43,12 @@ test("hello", function(done) {
     })
     .then(function() {
       expect(viewCalled).toBe(true)
-      expect(readFile("test")).toBe("<html></html>")
-      expect(readFile("test2")).toBe("<html></html>")
+      expect(readFile("test")).toBe(
+        "<!doctype html><html></html>"
+      )
+      expect(readFile("test2")).toBe(
+        "<!doctype html><html></html>"
+      )
       done()
     })
 })

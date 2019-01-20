@@ -3,6 +3,7 @@
 "use strict"
 
 var fs = require("fs-extra")
+var extname = require("path").extname
 var join = require("path").join
 var JSDOM = require("jsdom").JSDOM
 var jsdom = new JSDOM()
@@ -26,16 +27,20 @@ function render(prop, arg, dot) {
   var writes = []
 
   for (var path in arg.views) {
-    var file = join(arg.outDir, path)
+    var ext = extname(path),
+      file = join(arg.outDir, path)
 
     var a = Object.assign({}, arg.views[path], {
       path: path,
     })
 
+    var prepend =
+      !ext || ext === ".html" ? "<!doctype html>" : ""
+
     promise = promise
       .then(view.bind(undefined, prop, a, dot))
       .then(function() {
-        return jsdom.serialize()
+        return prepend + jsdom.serialize()
       })
 
     if (arg.outDir) {
