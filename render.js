@@ -20,7 +20,6 @@ module.exports = function(dot, opts) {
   state.render = opts || {}
 
   dot.beforeAny("render", render)
-  dot.beforeAny("renderCapture", renderCapture)
 }
 
 function render(prop, arg, dot) {
@@ -39,7 +38,8 @@ function render(prop, arg, dot) {
       !ext || ext === ".html" ? "<!doctype html>" : ""
 
     promise = promise
-      .then(view.bind(undefined, prop, a, dot))
+      .then(view.bind(null, prop, a, dot))
+      .then(waitForEvents)
       .then(function() {
         return prepend + jsdom.serialize()
       })
@@ -50,23 +50,6 @@ function render(prop, arg, dot) {
   }
 
   return Promise.all(writes.concat(promise))
-}
-
-function renderCapture(prop, arg, dot) {
-  var events = new Set(dot.state.events)
-
-  return function() {
-    var arr = [],
-      events2 = new Set(dot.state.events)
-
-    events2.forEach(function(v) {
-      if (!events.has(v)) {
-        arr.push(v)
-      }
-    })
-
-    return Promise.all(arr)
-  }
 }
 
 function view(prop, arg, dot) {
@@ -80,6 +63,17 @@ function view(prop, arg, dot) {
   })
 
   return dot[arg.event](a)
+}
+
+function waitForEvents(dot) {
+  var arr = [],
+    events = new Set(dot.state.events)
+
+  events.forEach(function(v) {
+    arr.push(v)
+  })
+
+  return Promise.all(arr)
 }
 
 function writeFile(output) {

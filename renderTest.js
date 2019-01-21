@@ -21,21 +21,33 @@ beforeEach(function() {
   fs.removeSync(__dirname + "/test2.html")
 })
 
-test("render", function(done) {
-  var viewCalled
-
-  expect.assertions(3)
+test("render", function() {
+  expect.assertions(2)
 
   log(dot)
 
+  var wait = function(ms) {
+    return new Promise(function(r) {
+      setTimeout(r, ms)
+    })
+  }
+
   dot.beforeAny("myView", function(prop, arg) {
-    viewCalled = true
-    var element = el("html")
-    arg.element.appendChild(element)
-    return element
+    var dot = require("dot-event")()
+
+    dot.any("testView", function() {
+      return wait(10).then(function() {
+        var element = el("html")
+        arg.element.appendChild(element)
+      })
+    })
+
+    dot.testView()
+
+    return dot
   })
 
-  dot
+  return dot
     .render({
       outDir: "./",
       views: {
@@ -44,37 +56,11 @@ test("render", function(done) {
       },
     })
     .then(function() {
-      expect(viewCalled).toBe(true)
       expect(readFile("test")).toBe(
         "<!doctype html><html></html>"
       )
       expect(readFile("test2")).toBe(
         "<!doctype html><html></html>"
       )
-      done()
     })
-})
-
-test("renderCapture", function() {
-  var wait = function(ms) {
-    return new Promise(function(r) {
-      setTimeout(r, ms)
-    })
-  }
-
-  dot.any("wait10", wait.bind(null, 10))
-  dot.any("wait20", wait.bind(null, 20))
-
-  dot.wait20()
-  expect(dot.state.events.size).toBe(1)
-
-  var finish = dot.renderCapture()
-  expect(dot.state.events.size).toBe(2)
-
-  dot.wait10()
-  expect(dot.state.events.size).toBe(3)
-
-  return finish().then(function() {
-    expect(dot.state.events.size).toBe(1)
-  })
 })
