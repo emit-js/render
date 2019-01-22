@@ -1,4 +1,4 @@
-/*global document Promise Set*/
+/*global document Promise Set window*/
 /*prettier-ignore*/
 "use strict"
 
@@ -8,7 +8,8 @@ var join = require("path").join
 var JSDOM = require("jsdom").JSDOM
 var jsdom = new JSDOM()
 
-global.document = jsdom.window.document
+global.window = jsdom.window
+global.document = window.document
 
 module.exports = function(dot, opts) {
   var state = dot.state
