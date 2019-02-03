@@ -32,7 +32,7 @@ test("render", function() {
     })
   }
 
-  dot.beforeAny("myView", function(prop, arg) {
+  dot.any("myView", function(prop, arg) {
     var dot = require("dot-event")()
 
     dot.any("testView", function() {

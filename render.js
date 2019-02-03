@@ -20,7 +20,7 @@ module.exports = function(dot, opts) {
 
   state.render = opts || {}
 
-  dot.beforeAny("render", render)
+  dot.any("render", render)
 }
 
 function render(prop, arg, dot) {

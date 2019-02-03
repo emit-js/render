@@ -32,9 +32,9 @@
     "jsdom": "13.2.0"
   },
   "devDependencies": {
-    "@dot-event/log": "next2",
+    "@dot-event/log": "1.0.11",
     "attodom": "^0.12.0",
-    "dot-event": "next2",
+    "dot-event": "3.0.29",
     "eslint": "5.12.1",
     "eslint-config-prettier": "4.0.0",
     "eslint-plugin-prettier": "3.0.1",
