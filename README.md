@@ -1,6 +1,6 @@
 # @dot-event/render
 
-dot-event server side renderer
+[dot-event](https://github.com/dot-event/dot-event2#readme) server side renderer
 
 ![render](render.gif)
 
