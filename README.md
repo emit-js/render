@@ -39,3 +39,11 @@ dot.render({
 > ⚠️ Render calls should be made synchronously. Use separate processes if you need concurrency.
 
 > ⚠️ This library is not meant to be bundled with client assets.
+
+## Related composers
+
+| Library    | Description    | URL                                            |
+| ---------- | -------------- | ---------------------------------------------- |
+| controller | DOM controller | https://github.com/dot-event/controller#readme |
+| el         | DOM elements   | https://github.com/dot-event/el#readme         |
+| view       | DOM view       | https://github.com/dot-event/view#readme       |
