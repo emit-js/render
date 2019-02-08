@@ -1,6 +1,6 @@
 # @dot-event/render
 
-[dot-event](https://github.com/dot-event/dot-event2#readme) server side renderer
+[dot-event](https://github.com/dot-event/dot-event#readme) server side renderer
 
 ![render](render.gif)
 
@@ -34,7 +34,7 @@ dot.render({
 })
 ```
 
-> ℹ️ The renderer waits for all [dot-event promises](https://github.com/dot-event/dot-event2#wait-for-pending-events) to complete before writing the final output.
+> ℹ️ The renderer waits for all [dot-event promises](https://github.com/dot-event/dot-event#wait-for-pending-events) to complete before writing the final output.
 
 > ⚠️ Render calls should be made synchronously. Use separate processes if you need concurrency.
 
