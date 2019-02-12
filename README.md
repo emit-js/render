@@ -22,7 +22,7 @@ require("@dot-event/render")(dot)
 The render call creates HTML files from event(s) that return a DOM element:
 
 ```js
-require("./layoutPage").default(dot)
+require("./layoutPage")(dot)
 
 dot.render({
   outDir: "./bundle",
