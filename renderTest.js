@@ -2,11 +2,11 @@
 /** @jsx el */
 /* eslint-env jest */
 
-var dot = require("dot-event")()
-var log = require("@dot-event/log")
-var el = require("attodom").el
-var fs = require("fs-extra")
-var render = require("./")
+var dot,
+  el = require("attodom").el,
+  fs = require("fs-extra"),
+  log = require("@dot-event/log"),
+  render = require("./")
 
 function readFile(name) {
   return fs
@@ -15,7 +15,7 @@ function readFile(name) {
 }
 
 beforeEach(function() {
-  dot.reset()
+  dot = require("dot-event")()
   render(dot)
   fs.removeSync(__dirname + "/test.html")
   fs.removeSync(__dirname + "/test2.html")
