@@ -11,14 +11,10 @@ var jsdom = new JSDOM()
 global.window = jsdom.window
 global.document = window.document
 
-module.exports = function(dot, opts) {
-  var state = dot.state
-
-  if (state.render) {
+module.exports = function(dot) {
+  if (dot.render) {
     return
   }
-
-  state.render = opts || {}
 
   dot.any("render", render)
 }
