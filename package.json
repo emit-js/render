@@ -20,13 +20,6 @@
     "pretty": "prettier --write **/*.css **/*.json **/*.md",
     "test": "jest"
   },
-  "operations": {
-    "starter": {},
-    "git": {},
-    "link": {},
-    "spawn": {},
-    "version": {}
-  },
   "dependencies": {
     "fs-extra": "7.0.1",
     "jsdom": "13.2.0"
