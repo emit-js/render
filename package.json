@@ -1,6 +1,6 @@
 {
   "name": "@dot-event/render",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "dot-event view renderer",
   "keywords": [
     "dot-event",
@@ -25,9 +25,9 @@
     "jsdom": "13.2.0"
   },
   "devDependencies": {
-    "@dot-event/log": "1.0.33",
+    "@dot-event/log": "1.0.34",
     "attodom": "0.12.0",
-    "dot-event": "3.2.1",
+    "dot-event": "3.2.2",
     "eslint": "5.16.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-prettier": "3.0.1",
