@@ -25,7 +25,7 @@
     "jsdom": "13.2.0"
   },
   "devDependencies": {
-    "@emit-js/log": "1.0.39",
+    "@emit-js/log": "1.0.40",
     "attodom": "0.12.0",
     "@emit-js/emit": "3.2.9",
     "eslint": "5.16.0",
