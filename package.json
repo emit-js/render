@@ -1,6 +1,6 @@
 {
   "name": "@emit-js/render",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "emit view renderer",
   "keywords": [
     "emit",
@@ -25,9 +25,9 @@
     "jsdom": "13.2.0"
   },
   "devDependencies": {
-    "@emit-js/log": "1.0.38",
+    "@emit-js/log": "1.0.39",
     "attodom": "0.12.0",
-    "@emit-js/emit": "3.2.8",
+    "@emit-js/emit": "3.2.9",
     "eslint": "5.16.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-plugin-prettier": "3.0.1",
