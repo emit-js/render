@@ -2,10 +2,10 @@
 /** @jsx el */
 /* eslint-env jest */
 
-var dot,
-  el = require("attodom").el,
+var el = require("attodom").el,
+  emit,
   fs = require("fs-extra"),
-  log = require("@dot-event/log"),
+  log = require("@emit-js/log"),
   render = require("./")
 
 function readFile(name) {
@@ -15,8 +15,8 @@ function readFile(name) {
 }
 
 beforeEach(function() {
-  dot = require("dot-event")()
-  render(dot)
+  emit = require("@emit-js/emit")()
+  render(emit)
   fs.removeSync(__dirname + "/test.html")
   fs.removeSync(__dirname + "/test2.html")
 })
@@ -24,7 +24,7 @@ beforeEach(function() {
 test("render", function() {
   expect.assertions(2)
 
-  log(dot)
+  log(emit)
 
   var wait = function(ms) {
     return new Promise(function(r) {
@@ -32,22 +32,22 @@ test("render", function() {
     })
   }
 
-  dot.any("myView", function(prop, arg) {
-    var dot = require("dot-event")()
+  emit.any("myView", function(arg) {
+    var emit = require("@emit-js/emit")()
 
-    dot.any("testView", function() {
+    emit.any("testView", function() {
       return wait(10).then(function() {
         var element = el("html")
         arg.element.appendChild(element)
       })
     })
 
-    dot.testView()
+    emit.testView()
 
-    return dot
+    return emit
   })
 
-  return dot
+  return emit
     .render({
       outDir: "./",
       views: {

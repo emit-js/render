@@ -11,15 +11,15 @@ var jsdom = new JSDOM()
 global.window = jsdom.window
 global.document = window.document
 
-module.exports = function(dot) {
-  if (dot.render) {
+module.exports = function(emit) {
+  if (emit.render) {
     return
   }
 
-  dot.any("render", render)
+  emit.any("render", render)
 }
 
-function render(prop, arg, dot) {
+function render(arg, prop, emit) {
   var promise = Promise.resolve()
   var writes = []
 
@@ -35,7 +35,7 @@ function render(prop, arg, dot) {
       !ext || ext === ".html" ? "<!doctype html>" : ""
 
     promise = promise
-      .then(view.bind(null, prop, a, dot))
+      .then(view.bind(null, a, prop, emit))
       .then(waitForEvents)
       .then(function() {
         return prepend + jsdom.serialize()
@@ -49,7 +49,7 @@ function render(prop, arg, dot) {
   return Promise.all(writes.concat(promise))
 }
 
-function view(prop, arg, dot) {
+function view(arg, prop, emit) {
   while (document.firstChild) {
     document.removeChild(document.firstChild)
   }
@@ -59,12 +59,12 @@ function view(prop, arg, dot) {
     path: arg.path,
   })
 
-  return dot[arg.event](a)
+  return emit[arg.event](a)
 }
 
-function waitForEvents(dot) {
+function waitForEvents(emit) {
   var arr = [],
-    events = new Set(dot.state.events)
+    events = new Set(emit.state.events)
 
   events.forEach(function(v) {
     arr.push(v)
